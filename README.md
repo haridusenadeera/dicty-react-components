@@ -27,7 +27,7 @@ The third ``require``` might not be needed for bootstrap components that does
 not any javascript to function. However, ```jQuery``` seemed to be needed
 irrespective of the bootstrap component need javascript or not.
 
-To use ```jquery``` globaly with [webpack](http://webpack.github.io) add the
+To use ```jquery``` globally with [webpack](http://webpack.github.io) add the
 following in the webpack config file.
 
 ```js
