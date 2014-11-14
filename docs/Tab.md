@@ -11,6 +11,10 @@ var Route = Router.Route;
 var Routes = Router.Routes;
 var DefaultRoute = Router.DefaultRoute;
 
+require('bootstrap/dist/css/bootstrap');
+var jQuery = require('jquery');
+require('bootstrap/dist/js/bootstrap');
+
 var Dicty = require('dicty-react-components');
 var TabbedArea = Dicty.TabbedArea;
 var TabPane = Dicty.TabPane;
@@ -75,7 +79,8 @@ var App = React.createClass({
         )
     }
 });
-routes = (
+
+var routes = (
     <Routes>
         <Route name="seinfeld" path="/" handler={App}>
             <Route name="jerry" path="/jerry" handler={Jerry} />
