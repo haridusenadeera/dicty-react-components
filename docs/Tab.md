@@ -97,3 +97,5 @@ React.render(routes,document.body);
 ```
 
 It will generate a tabbed interface with the following look and feel..
+![tab](https://cloud.githubusercontent.com/assets/48740/5053490/8ed3fb3a-6c10-11e4-9a04-fb8df2dfd4f0.png)
+
