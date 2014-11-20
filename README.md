@@ -42,4 +42,4 @@ plugins: [
 
 ## Components
 * [Tab](docs/Tab.md) - Generates markup for bootstrap tab integrated with [react-router](https://github.com/rackt/react-router).
-
+* [Panel](docs/Panel.md) - Generates markup for bootstrap panel and accordion.
