@@ -1,4 +1,5 @@
 jest.dontMock('../TabbedArea.jsx');
+jest.dontMock('../TabPane.jsx');
 
 describe('TabbedArea', function() {
     var React = require('react/addons');

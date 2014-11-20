@@ -1,6 +1,10 @@
 {
   "name": "dicty-react-components",
-  "version": "0.0.1",
+  "engines": {
+      "node": "0.10.x",
+      "npm": "1.x"
+  },
+  "version": "0.1.0",
   "description": "Collection of react components for developing frontpage application at dictyBase",
   "authors": [
     "Siddhartha Basu"
@@ -20,9 +24,9 @@
     "html-webpack-plugin": "~1.1.0"
   },
   "dependencies": {
-    "react-router": "0.10.2",
-    "jquery": "2.1.1",
-    "bootstrap": "3.1.1"
+    "react-router": "~0.10.2",
+    "jquery": "2.x",
+    "bootstrap": "3.x"
   },
   "scripts": {
     "test": "node_modules/.bin/jest"
