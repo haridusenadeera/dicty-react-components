@@ -3,22 +3,28 @@ Generates markup for bootstrap tab integrated with [react-router](https://github
 
 # Usage
 The following code will generate four tabs with urls(hash based) handled by react-route.
+The idea here is to wrap all the ```TabPane``` components inside a ```TabbedArea``` component.
+And finally the __route__ configuration maps the url to the component for tab contents.
 
 ```js
+// Get all the required modules
 var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
 var Routes = Router.Routes;
 var DefaultRoute = Router.DefaultRoute;
 
+// Setup boostrap css and javascript
 require('bootstrap/dist/css/bootstrap');
 var jQuery = require('jquery');
 require('bootstrap/dist/js/bootstrap');
 
+// Get the tab components.
 var Dicty = require('dicty-react-components');
 var TabbedArea = Dicty.TabbedArea;
 var TabPane = Dicty.TabPane;
 
+// The next four components will be displayed as tab content
 var Jerry = React.createClass({
     render: function() {
         return (
@@ -51,7 +57,7 @@ var Elaine = React.createClass({
     }
 });
 
-
+// The top level container component for all the tabs
 var App = React.createClass({
     render: function () {
         return (
@@ -80,6 +86,9 @@ var App = React.createClass({
     }
 });
 
+// Routing setup with react-router. Each value of name parameter also matches the *to* parameter
+// of TabPane. The value of handler paramter points to the earlier components that displays the
+// tab contents.
 var routes = (
     <Routes>
         <Route name="seinfeld" path="/" handler={App}>
