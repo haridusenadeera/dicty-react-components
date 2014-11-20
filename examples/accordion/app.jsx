@@ -1,13 +1,5 @@
-# Panel
-Component to generate bootstrap3 based panel and group panels(accordion).
-
-# Usage
-The ```Panel``` component generates individual panel whereas it could wrapped
-around a ```PanelGroup``` to group together multiple panels. The following code
-will generate four collapsible panels(accordion). This component allows
-multiple panels to be opened at the same time. 
-
-```js
+require('bootstrap/dist/css/bootstrap');
+require('bootstrap/dist/js/bootstrap');
 var React = require('react');
 var PanelGroup = require('dicty-react-components').PanelGroup;
 var Panel = require('dicty-react-components').Panel;
@@ -17,7 +9,7 @@ var App = React.createClass({
             return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-offset-3 cols-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <div className="col-md-offset-2 cols-xs-8 col-sm-8 col-md-8 col-lg-8">
                             <PanelGroup>
                                 <Panel title="Jerry" id="jerry" open={true}>
                                     The show about nothing
@@ -40,6 +32,3 @@ var App = React.createClass({
     });
 
 React.render(<App />, document.body);
-```
-
-The above will generate four collapsible panels with following look and feel...
