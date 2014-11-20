@@ -43,3 +43,5 @@ React.render(<App />, document.body);
 ```
 
 The above will generate four collapsible panels with following look and feel...
+![accordion](https://cloud.githubusercontent.com/assets/48740/5130495/c5b80cb4-70b0-11e4-984d-be2f6dc4dfa3.png)
+
