@@ -26,7 +26,8 @@
   "dependencies": {
     "react-router": "~0.10.2",
     "jquery": "2.x",
-    "bootstrap": "3.x"
+    "bootstrap": "3.x",
+    "d3": "3.x"
   },
   "scripts": {
     "test": "node_modules/.bin/jest"
