@@ -1,6 +1,21 @@
 import React from 'react';
 import { domainProps, domainDefaults } from './utils/domain/props';
 
+class SvgContainer extends React.Component {
+    static propTypes = {
+        width: React.PropTypes.number.isRequired,
+        height: React.PropTypes.number.isRequired
+    };
+    render() {
+        const { width, height } = this.props;
+        return (
+            <svg width={width}
+                height={height}>
+            </svg>
+        )
+    }
+}
+
 class InterProDomain extends React.Component {
     static propTypes = {
         params: React.PropTypes.shape(domainProps.params).isRequired,
