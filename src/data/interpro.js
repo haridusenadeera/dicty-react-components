@@ -162,7 +162,7 @@ let data = {
         ]
     },
     "id": "P08799",
-    "length": "2116",
+    "length": 2116,
     "total_analysis": 7
 };
 
