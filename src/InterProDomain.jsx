@@ -1,6 +1,7 @@
 import React from 'react';
 import { domainProps, domainDefaults } from './utils/domain/props';
 import { getxScale, getHeight, getBins } from './utils/domain/common';
+import { PolypeptideTrack, PolypeptideLabel } from './domain/Polypeptide';
 
 class SvgContainer extends React.Component {
     static propTypes = {
@@ -18,6 +19,14 @@ class SvgContainer extends React.Component {
     }
 }
 
+class SvgGroupContainer extends React.Component {
+    render() {
+        return (
+            <g>{this.props.children}</g>
+        )
+    }
+}
+
 class InterProDomain extends React.Component {
     static propTypes = {
         params: React.PropTypes.shape(domainProps.params).isRequired,
@@ -28,10 +37,21 @@ class InterProDomain extends React.Component {
     render() {
         const { params, colors, data } = this.props;
         const height = getHeight(data.total_analysis, params);
+        const xScale = getxScale(data.length, params);
         return (
             <SvgContainer
                 width={params.svgWidth}
                 height={height}>
+                <SvgGroupContainer>
+                    <SvgGroupContainer>
+                        <PolypeptideTrack
+                            params={params}
+                            colors={colors}
+                            length={data.length}
+                            xScale={xScale}
+                        />
+                    </SvgGroupContainer>
+                </SvgGroupContainer>
             </SvgContainer>
         )
     }
