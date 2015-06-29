@@ -31,7 +31,8 @@ const domainProps = {
             description : React.PropTypes.string
         }),
         protein: React.PropTypes.string
-    }
+    },
+    numofBins: 4
 };
 
 const domainDefaults = {
