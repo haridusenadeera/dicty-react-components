@@ -3,6 +3,7 @@ import { domainProps, domainDefaults } from './utils/domain/props';
 import { getxScale, getHeight, getBins } from './utils/domain/common';
 import { PolypeptideTrack, PolypeptideLabel } from './domain/Polypeptide';
 import { VerticalScale, TopHorizontalLine, BottomHorizontalLine, VerticalLine } from './domain/Scale';
+import { SignatureId, SignatureLabel, SignatureInterval, SignatureTrack } from './domain/Signature';
 
 class SvgContainer extends React.Component {
     static propTypes = {
@@ -46,6 +47,7 @@ class InterProDomain extends React.Component {
         this.renderScale = this.renderScale.bind(this);
         this.renderLines = this.renderLines.bind(this);
         this.renderSignatures = this.renderSignatures.bind(this);
+        this.renderSignatureIds = this.renderSignatureIds.bind(this);
     }
     render() {
         const { params, colors, data } = this.props;
@@ -64,8 +66,27 @@ class InterProDomain extends React.Component {
                     {this.renderPolypeptide}
                     {this.renderSignatures}
                 </SvgGroupContainer>
+                <SvgGroupContainer>
+                    {this.renderSignatureIds}
+                </SvgGroupContainer>
             </SvgContainer>
         )
+    }
+    renderSignatureIds() {
+        const { params, data } = this.props;
+        let index = 0;
+        let items = [];
+        for (let id in data.domains) {
+            items.push(
+                <SignatureId
+                    params={params}
+                    index={index}
+                    id={id}
+                />
+            );
+            index = ++index;
+        }
+        return items;
     }
     renderSignatures(){
         const { params, colors, data } = this.props;
@@ -117,6 +138,7 @@ class InterProDomain extends React.Component {
                     data={data.domains[id][0]}
                 />
             );
+            index = ++index;
         }
         return (
             <SvgGroupContainer>
@@ -159,7 +181,7 @@ class InterProDomain extends React.Component {
     }
     renderScale() {
         const { bins, height, xScale } = this;
-        const params = this.props;
+        const params = this.props.params;
         return (
             bins.map(value => {
                 <VerticalScale
