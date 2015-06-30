@@ -31,8 +31,7 @@ const domainProps = {
             description : React.PropTypes.string
         }),
         protein: React.PropTypes.string
-    },
-    numofBins: 4
+    }
 };
 
 const domainDefaults = {
@@ -71,7 +70,8 @@ const domainDefaults = {
             track: "#446CB3",
             label: "#FFFFCC"
         }
-    }
+    },
+    numOfBins: 4
 };
 
 export { domainProps, domainDefaults };
