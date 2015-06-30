@@ -34,15 +34,15 @@ class InterProDomain extends React.Component {
         params: React.PropTypes.shape(domainProps.params).isRequired,
         colors: React.PropTypes.shape(domainProps.colors).isRequired,
         data: React.PropTypes.object.isRequired,
-        numofBins: React.PropTypes.number
+        numOfBins: React.PropTypes.number
     };
     static defaultProps = domainDefaults;
     constructor(props) {
         super(props);
-        const { params, data } = this.props;
+        const { params, data, numOfBins } = this.props;
         this.height = getHeight(data.total_analysis, params);
         this.xScale = getxScale(data.length, params);
-        this.bins = getBins(data.length, Math.round(data.length/this.props.numBins));
+        this.bins = getBins(data.length, Math.round(data.length/numOfBins));
         this.renderPolypeptide = this.renderPolypeptide.bind(this);
         this.renderScale = this.renderScale.bind(this);
         this.renderLines = this.renderLines.bind(this);
@@ -57,10 +57,10 @@ class InterProDomain extends React.Component {
                 height={this.height}>
                 <SvgGroupContainer
                     style={{opacity: "0.38"}}>
-                    {this.renderLines}
+                    {this.renderLines()}
                 </SvgGroupContainer>
                 <SvgGroupContainer>
-                    {this.renderScale}
+                    {this.renderScale()}
                 </SvgGroupContainer>
                 <SvgGroupContainer>
                     {this.renderPolypeptide}
@@ -101,7 +101,7 @@ class InterProDomain extends React.Component {
                         index={index}
                         xScale={xScale}
                         colors={colors}
-                        data={d}
+                        data={data.domains[id][0]}
                     />
                 );
 
@@ -117,7 +117,7 @@ class InterProDomain extends React.Component {
                             data={d}
                         />
                     );
-                    if (i != arr.lenght - 1 ) {
+                    if (i != arr.length - 1 ) {
                         items.push(
                             <SignatureInterval
                                 params        = {params}
@@ -148,7 +148,7 @@ class InterProDomain extends React.Component {
     }
     renderLines() {
         const { bins, xScale, height } = this;
-        const params = this.props;
+        const params = this.props.params;
         let items = [];
         // Draw the top horizontal line
         items.push(
@@ -156,6 +156,7 @@ class InterProDomain extends React.Component {
                 params={params}
                 xScale={xScale}
                 value={bins[bins.length - 1]}
+                key="top"
             />
         );
         //Draw the vertical lines
@@ -166,15 +167,17 @@ class InterProDomain extends React.Component {
                     xScale={xScale}
                     height={height}
                     value={value}
+                    key={value}
                 />
             );
-        })
+        });
         items.push(
             <BottomHorizontalLine
                 params={params}
                 xScale={xScale}
                 height={height}
                 value={bins[bins.length - 1]}
+                key="bottom"
             />
         );
         return items;
@@ -184,12 +187,15 @@ class InterProDomain extends React.Component {
         const params = this.props.params;
         return (
             bins.map(value => {
-                <VerticalScale
-                    params={params}
-                    xScale={xScale}
-                    height={height}
-                    value={value}
-                />
+                return (
+                    <VerticalScale
+                        params={params}
+                        xScale={xScale}
+                        height={height}
+                        value={value}
+                        key={value}
+                    />
+                )
             })
         )
     }
