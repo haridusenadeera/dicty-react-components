@@ -63,8 +63,8 @@ class InterProDomain extends React.Component {
                     {this.renderScale()}
                 </SvgGroupContainer>
                 <SvgGroupContainer>
-                    {this.renderPolypeptide}
-                    {this.renderSignatures}
+                    {this.renderPolypeptide()}
+                    {this.renderSignatures()}
                 </SvgGroupContainer>
                 <SvgGroupContainer>
                     {this.renderSignatureIds}
@@ -91,60 +91,63 @@ class InterProDomain extends React.Component {
     renderSignatures(){
         const { params, colors, data } = this.props;
         const { bins, xScale, height } = this;
-        let index = 0;
-        let items = [];
-        for (let id in data.domains) {
-            if (data.domains[id].length === 1) {
-                items.push(
-                    <SignatureTrack
+        const items =
+            data.domains.map((domain,index) => {
+                return (
+                    <SvgGroupContainer>
+                        {
+                            if (domain.members.length === 1) {
+                                return (
+                                    <SignatureTrack
+                                        params={params}
+                                        index={index}
+                                        xScale={xScale}
+                                        colors={colors}
+                                        data={domain.members[0]}
+                                    />
+                                )
+                            }
+                            domain.members.map((member,i, arr) => {
+                                if (i != arr.length - 1 ) {
+                                    return (
+                                        <SignatureInterval
+                                            params        = {params}
+                                            index         = {index}
+                                            xScale        = {xScale}
+                                            intervalStart = {arr[i].end}
+                                            intervalEnd   = {arr[i + 1].start}
+                                        />
+                                        <SignatureTrack
+                                            params={params}
+                                            xScale={xScale}
+                                            colors={colors}
+                                            data={member}
+                                            index={index}
+                                        />
+                                    )
+                                }
+                                return (
+                                        <SignatureTrack
+                                            params={params}
+                                            xScale={xScale}
+                                            colors={colors}
+                                            data={member}
+                                            index={index}
+                                        />
+                                )
+                            });
+
+                        }
+                    <SignatureLabel
                         params={params}
                         index={index}
                         xScale={xScale}
-                        colors={colors}
-                        data={data.domains[id][0]}
+                        data={domain.id}
                     />
-                );
-
-            }
-            else {
-                data.domains[id].forEach((d,i,arr) => {
-                    items.push(
-                        <SignatureTrack
-                            params={params}
-                            index={index}
-                            xScale={xScale}
-                            colors={colors}
-                            data={d}
-                        />
-                    );
-                    if (i != arr.length - 1 ) {
-                        items.push(
-                            <SignatureInterval
-                                params        = {params}
-                                index         = {index}
-                                xScale        = {xScale}
-                                intervalStart = {arr[i].end}
-                                intervalEnd   = {arr[i + 1].start}
-                            />
-                        );
-                    }
-                })
-            }
-            items.push(
-                <SignatureLabel
-                    params={params}
-                    index={index}
-                    xScale={xScale}
-                    data={data.domains[id][0]}
-                />
-            );
-            index = ++index;
-        }
-        return (
-            <SvgGroupContainer>
-                {items}
-            </SvgGroupContainer>
-        )
+                    </SvgGroupContainer>
+                )
+            });
+        return items;
     }
     renderLines() {
         const { bins, xScale, height } = this;
