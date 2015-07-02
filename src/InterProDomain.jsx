@@ -48,6 +48,8 @@ class InterProDomain extends React.Component {
         this.renderLines = this.renderLines.bind(this);
         this.renderSignatures = this.renderSignatures.bind(this);
         this.renderSignatureIds = this.renderSignatureIds.bind(this);
+        this.renderSignatureTrack = this.renderSignatureTrack.bind(this);
+        this.renderSignatureInterval = this.renderSignatureInterval.bind(this);
     }
     render() {
         const { params, colors, data } = this.props;
@@ -67,26 +69,60 @@ class InterProDomain extends React.Component {
                     {this.renderSignatures()}
                 </SvgGroupContainer>
                 <SvgGroupContainer>
-                    {this.renderSignatureIds}
+                    {this.renderSignatureIds()}
                 </SvgGroupContainer>
             </SvgContainer>
         )
     }
     renderSignatureIds() {
         const { params, data } = this.props;
-        let index = 0;
-        let items = [];
-        for (let id in data.domains) {
-            items.push(
-                <SignatureId
-                    params={params}
-                    index={index}
-                    id={id}
-                />
-            );
-            index = ++index;
-        }
+        const items =
+            data.domains.map((domain,index) => {
+                return (
+                    <SignatureId
+                        params={params}
+                        index={index}
+                        id={domain.id}
+                        key={domain.id}
+                    />
+                )
+            });
         return items;
+    }
+    renderSignatureTrack(domain, index) {
+        const  xScale  = this.xScale;
+        const { params, colors } = this.props;
+        return domain.members.map((member,i, arr) => {
+                return (
+                    <SignatureTrack
+                        xScale = {xScale}
+                        colors = {colors}
+                        data   = {member}
+                        index  = {index}
+                        params = {params}
+                        key    = {arr[i].start}
+                    />
+                )
+            }
+        );
+    }
+    renderSignatureInterval(domain, index) {
+        const  xScale  = this.xScale;
+        const { params, colors } = this.props;
+        return domain.members.map((member,i, arr) => {
+            if (i != arr.length - 1 ) {
+                return (
+                    <SignatureInterval
+                        params        = {params}
+                        index         = {index}
+                        xScale        = {xScale}
+                        intervalStart = {arr[i].end}
+                        intervalEnd   = {arr[i + 1].start}
+                        key           = {arr[i].end}
+                    />
+                )
+            }
+        });
     }
     renderSignatures(){
         const { params, colors, data } = this.props;
@@ -94,56 +130,16 @@ class InterProDomain extends React.Component {
         const items =
             data.domains.map((domain,index) => {
                 return (
-                    <SvgGroupContainer>
-                        {
-                            if (domain.members.length === 1) {
-                                return (
-                                    <SignatureTrack
-                                        params={params}
-                                        index={index}
-                                        xScale={xScale}
-                                        colors={colors}
-                                        data={domain.members[0]}
-                                    />
-                                )
-                            }
-                            domain.members.map((member,i, arr) => {
-                                if (i != arr.length - 1 ) {
-                                    return (
-                                        <SignatureInterval
-                                            params        = {params}
-                                            index         = {index}
-                                            xScale        = {xScale}
-                                            intervalStart = {arr[i].end}
-                                            intervalEnd   = {arr[i + 1].start}
-                                        />
-                                        <SignatureTrack
-                                            params={params}
-                                            xScale={xScale}
-                                            colors={colors}
-                                            data={member}
-                                            index={index}
-                                        />
-                                    )
-                                }
-                                return (
-                                        <SignatureTrack
-                                            params={params}
-                                            xScale={xScale}
-                                            colors={colors}
-                                            data={member}
-                                            index={index}
-                                        />
-                                )
-                            });
-
-                        }
-                    <SignatureLabel
-                        params={params}
-                        index={index}
-                        xScale={xScale}
-                        data={domain.id}
-                    />
+                    <SvgGroupContainer key={(domain.id + index)}>
+                        { this.renderSignatureTrack(domain, index)}
+                        { (domain.members.length > 1) && this.renderSignatureInterval(domain, index) }
+                        <SignatureLabel
+                            params={params}
+                            index={index}
+                            xScale={xScale}
+                            data={domain.members[0]}
+                            key={domain.id}
+                        />
                     </SvgGroupContainer>
                 )
             });
@@ -192,11 +188,11 @@ class InterProDomain extends React.Component {
             bins.map(value => {
                 return (
                     <VerticalScale
-                        params={params}
-                        xScale={xScale}
-                        height={height}
-                        value={value}
-                        key={value}
+                        params = {params}
+                        xScale = {xScale}
+                        height = {height}
+                        value  = {value}
+                        key    = {value}
                     />
                 )
             })
