@@ -60,17 +60,18 @@ export class Column extends React.Component {
       const xsStyles = {
             base: {
                 boxSizing: 'border-box',
-                paddingLeft: '1rem',
-                paddingRight: '1rem',
+                paddingLeft: '15px',
+                paddingRight: '15px',
+                minHeight: '1px',
                 flexGrow: 0,
                 flexShrink: 0,
                 flexBasis: colCountToPercent(xsSpan),
-                marginLeft: xsOffset && colCountToPercent(xsOffset)
+                marginLeft: xsOffset ? colCountToPercent(xsOffset) : 0
             },
             auto: {
                 boxSizing: 'border-box',
-                paddingLeft: '1rem',
-                paddingRight: '1rem',
+                paddingLeft: '15px',
+                paddingRight: '15px',
                 flexGrow: 1,
                 flexBasis: 0
             }
@@ -79,7 +80,7 @@ export class Column extends React.Component {
             base: {
                 '@media (min-width: 768px)': {
                     flexBasis: colCountToPercent(smSpan),
-                    marginLeft: smOffset && colCountToPercent(smOffset)
+                    marginLeft: smOffset ? colCountToPercent(smOffset) : 0
                 }
             },
             auto: {
@@ -94,7 +95,7 @@ export class Column extends React.Component {
             base: {
                 '@media (min-width: 992px)': {
                     flexBasis: colCountToPercent(mdSpan),
-                    marginLeft: mdOffset && colCountToPercent(mdOffset)
+                    marginLeft: mdOffset ? colCountToPercent(mdOffset) : 0
                 }
             },
             auto: {
@@ -109,7 +110,7 @@ export class Column extends React.Component {
             base: {
                 '@media (min-width: 1200px)': {
                     flexBasis: colCountToPercent(lgSpan),
-                    marginLeft: lgOffset && colCountToPercent(lgOffset)
+                    marginLeft: lgOffset ? colCountToPercent(lgOffset) : 0
                 }
             },
             auto: {

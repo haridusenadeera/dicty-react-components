@@ -25,9 +25,9 @@ function getJustifyValue(type, params) {
 export class Row extends React.Component {
     displayName = 'Row component for grid layout'
     static propTypes = {
-        style: React.propTypes.object,
-        justify: React.propTypes.array,
-        reverse: React.propTypes.bool
+        style: React.PropTypes.object,
+        justify: React.PropTypes.array,
+        reverse: React.PropTypes.bool
     }
     getStyles = () => {
       const { justify, reverse } = this.props;
@@ -39,15 +39,15 @@ export class Row extends React.Component {
                 flexWrap: 'wrap',
                 marginRight: '-15px',
                 marginLeft: '-15px',
-                justifyContent: justify && getJustifyValue('xs', justify),
+                justifyContent: justify ? getJustifyValue('xs', justify) : 'flex-start',
                 '@media (min-width: 768px)': {
-                    justifyContent: justify && getJustifyValue('sm', justify)
+                    justifyContent: justify ? getJustifyValue('sm', justify) : 'flex-start'
                 },
                 '@media (min-width: 992px)': {
-                    justifyContent: justify && getJustifyValue('md', justify)
+                    justifyContent: justify ? getJustifyValue('md', justify) : 'flex-start'
                 },
                 '@media (min-width: 1200px)': {
-                    justifyContent: justify && getJustifyValue('lg', justify)
+                    justifyContent: justify ? getJustifyValue('lg', justify) : 'flex-start'
                 }
             }
         };
@@ -56,7 +56,7 @@ export class Row extends React.Component {
       const { style, children } = this.props;
       return (
             <div
-              style={[this.getStyles(), style && style]}>
+              style={[this.getStyles().base, style && style]}>
               {children}
             </div>
         );
