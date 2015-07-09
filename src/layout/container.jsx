@@ -5,7 +5,7 @@ import Radium from 'radium';
 export class Container extends React.Component {
     displayName = 'A fluid container'
     static propTypes = {
-        fluid: React.PropTypes.bool,
+        fixed: React.PropTypes.bool,
         style: React.PropTypes.object
     }
     static defaultProps = {
@@ -18,9 +18,6 @@ export class Container extends React.Component {
                 marginLeft: 'auto',
                 paddingLeft: '15px',
                 paddingRight: '15px'
-            },
-            fluid: {
-                width: '100%'
             },
             fixed: {
                 '@media (min-width: 768px)': {
@@ -38,14 +35,13 @@ export class Container extends React.Component {
         };
     }
     render() {
-      const { fluid, children, style } = this.props;
+      const { fixed, children, style } = this.props;
       const defStyle = this.getStyles();
       return (
             <div
               style={[
-                  defStyle.base,
-                  style && style,
-                  fluid ? defStyle.fluid : defStyle.fixed
+                  fixed ? defStyle.fixed : defStyle.base,
+                  style && style
               ]}>
               {children}
             </div>
