@@ -1,25 +1,51 @@
 import React from 'react';
 import Radium from 'radium';
 
-const flexre = /^(center|start|end)\-(xs|sm|md|lg)$/;
-const spacere = /^(around|between)\-(xs|sm|md|lg)$/;
+const scre = /(xs|sm|md|lg)$/;
 
-function getJustifyValue(type, params) {
-  for (let value in params) {
-    if (value.test(flexre)) {
-      let match = value.match(flexre);
-      if (match[2] === type) {
-        return ['flex', match[1]].join('-');
-      }
+function screen2flex() {
+  const base = {
+        center: 'center',
+        start: 'flex-start',
+        end: 'flex-end',
+        around: 'space-around',
+        between: 'space-between'
+    };
+  let flexmap = {};
+  ['xs', 'sm', 'md', 'lg'].forEach(screen => {
+    for (let t in base) {
+      flexmap[[t, screen].join('-')] = base[t];
     }
-    if (value.test(spacere)) {
-      let match = value.match(spacere);
-      if (match[2] === type) {
-        return ['space', match[1]].join('-');
+  });
+  return flexmap;
+}
+
+const flexmap = screen2flex();
+
+function hasJustify(screen, params) {
+  for (let i = 0; i < params.length; i = i + 1) {
+    if (scre.test(params[i])) {
+      let match = params[i].match(scre);
+      if (screen === match[1]) {
+        return true;
       }
     }
   }
+  return false;
 }
+
+function getJustify(screen, params) {
+  for (let i = 0; i < params.length; i = i + 1) {
+    if (scre.test(params[i])) {
+      let match = params[i].match(scre);
+      if (screen === match[1]) {
+        return flexmap[params[i]];
+      }
+    }
+  }
+  return false;
+}
+
 
 @Radium
 export class Row extends React.Component {
@@ -31,6 +57,9 @@ export class Row extends React.Component {
     }
     getStyles = () => {
       const { justify, reverse } = this.props;
+      const defJustify = justify && hasJustify('xs', justify) ?
+                    getJustify('xs', justify) : 'flex-start';
+
       return {
             base: {
                 boxSizing: 'border-box',
@@ -39,15 +68,18 @@ export class Row extends React.Component {
                 flexWrap: 'wrap',
                 marginRight: '-15px',
                 marginLeft: '-15px',
-                justifyContent: justify ? getJustifyValue('xs', justify) : 'flex-start',
+                justifyContent: defJustify,
                 '@media (min-width: 768px)': {
-                    justifyContent: justify ? getJustifyValue('sm', justify) : 'flex-start'
+                    justifyContent: justify && hasJustify('sm', justify) ?
+                        getJustify('sm', justify) : defJustify
                 },
                 '@media (min-width: 992px)': {
-                    justifyContent: justify ? getJustifyValue('md', justify) : 'flex-start'
+                    justifyContent: justify && hasJustify('md', justify) ?
+                        getJustify('md', justify) : defJustify
                 },
                 '@media (min-width: 1200px)': {
-                    justifyContent: justify ? getJustifyValue('lg', justify) : 'flex-start'
+                    justifyContent: justify && hasJustify('lg', justify) ?
+                        getJustify('lg', justify) : defJustify
                 }
             }
         };
