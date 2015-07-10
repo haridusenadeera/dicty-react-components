@@ -31,21 +31,17 @@ export class Column extends React.Component {
         lgOffset: colValues,
         style: React.PropTypes.object
     }
-    static defaultProps = {
-        xsSpan: 'auto',
-        smSpan: 'auto',
-        mdSpan: 'auto',
-        lgSpan: 'auto'
-    }
     render() {
       const { children, style } = this.props;
       const defStyle = this.getStyles();
       let allStyles
             = ['xsSpan', 'smSpan', 'mdSpan', 'lgSpan'].map(param => {
-              if (this.props[param] === 'auto') {
-                return defStyle[param].auto;
+              if (this.props[param]) {
+                if (this.props[param] === 'auto') {
+                  return defStyle[param].auto;
+                }
+                return defStyle[param].base;
               }
-              return defStyle[param].base;
             }, this);
       allStyles.push(style && style);
       return (
