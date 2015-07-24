@@ -41,5 +41,5 @@
  * Load each test using webpack's dynamic require with contexts.
  */
 require('core-js/es5');
-var context = require.context('./src/__tests__/domain', true, /-test\.js?$/);
+var context = require.context('./src/__tests__', true, /PanelGroup-test\.js?$/);
 context.keys().forEach(context);
