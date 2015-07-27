@@ -1,52 +1,110 @@
-jest.dontMock('../PanelGroup.jsx');
-jest.dontMock('../Panel.jsx');
+import React from 'react/addons';
+import {SimplePanel, MultiPanel, CollapsiblePanel} from './PanelApp';
+let { TestUtils } = React.addons;
 
-describe('PanelGroup', function() {
-    var React = require('react/addons');
-    var PanelGroup = require('../PanelGroup.jsx');
-    var Panel = require('../Panel.jsx');
-    var TestUtils = React.addons.TestUtils;
+function shallowRender(elem) {
+    const shallow = TestUtils.createRenderer();
+    shallow.render(elem);
+    return shallow.getRenderOutput();
+}
 
-    var App;
-    beforeEach(function() {
-        App = React.createClass({
-            render: function () {
-                return (
-                    <PanelGroup>
-                        <Panel title="Jerry" id="jerry" open={true}>
-                            The show about nothing
-                        </Panel>
-                        <Panel title="Elaine" id="elaine">
-                            So you think Puddy actually believes in something?
-                        </Panel>
-                        <Panel title="George" id="george">
-                            Everybody is doing something, we will do nothing
-                        </Panel>
-                        <Panel title="Kramer" id="kramer" open={true}>
-                                Who's gonna turn down a Junior Mint? It's chocolate, it's peppermint; it's delicious!
-                        </Panel>
-                    </PanelGroup>
-                )
-            }
-        });
+describe('SimplePanel', () => {
+    let component;
+    beforeEach(() => {
+        component = TestUtils.renderIntoDocument(
+            <SimplePanel/>
+        );
     });
-
-    it('should correctly structure the elements for panels', function() {
-        var app = TestUtils.renderIntoDocument(<App />);
-        var panelGroup = TestUtils.findRenderedDOMComponentWithClass(app, 'panel-group');
-        expect(panelGroup.getDOMNode().nodeName).toEqual("DIV");
-        var panelArray = TestUtils.scryRenderedDOMComponentsWithClass(app, 'panel');
-        expect(panelArray.length).toEqual(4);
-        var panelTitleArray = TestUtils.scryRenderedDOMComponentsWithClass(app, 'panel-title');
-        expect(panelTitleArray.length).toEqual(4);
-        var panelCollapseArray = TestUtils.scryRenderedDOMComponentsWithClass(app, 'collapse');
-        expect(panelCollapseArray.length).toEqual(4);
+    it('should be a composite component', () => {
+        expect(TestUtils.isCompositeComponent(component)).toBe(true);
     });
-    it('should correctly structure the active panels', function() {
-        var app = TestUtils.renderIntoDocument(<App />);
-        var activePanelArray = TestUtils.scryRenderedDOMComponentsWithClass(app, 'in');
-        expect(activePanelArray.length).toEqual(2);
-        expect(activePanelArray[0].getDOMNode().firstChild.textContent).toMatch('show');
-        expect(activePanelArray[1].getDOMNode().firstChild.textContent).toMatch('Junior');
-    })
+    it('should have a container component', () => {
+        const elem = React.findDOMNode(component);
+        expect(elem.tagName).toBe('DIV');
+        expect(elem.getAttribute('style')).toMatch('color:#333');
+    });
+    it('should have a two children', () => {
+        const elem = React.findDOMNode(component);
+        const panel = elem.firstChild;
+        expect(panel.tagName).toBe('DIV');
+        expect(panel.childElementCount).toBe(2);
+    });
+    it('should have a panel title', () => {
+        const elem = React.findDOMNode(component);
+        const title = elem.firstChild.firstChild.firstChild;
+        expect(title.tagName).toBe('H3');
+        expect(title.textContent).toBe('The Opera');
+    });
+    it('should have a panel body', () => {
+        const elem = React.findDOMNode(component);
+        const body = elem.firstChild.lastChild;
+        expect(body.tagName).toBe('DIV');
+        expect(body.textContent).toMatch('Elaine');
+    });
+});
+
+
+describe('MultiPanel', () => {
+    let component;
+    beforeEach(() => {
+        component = TestUtils.renderIntoDocument(
+            <MultiPanel/>
+        );
+    });
+    it('should be a composite component', () => {
+        expect(TestUtils.isCompositeComponent(component)).toBe(true);
+    });
+    it('should have a two children', () => {
+        const elem = React.findDOMNode(component);
+        expect(elem.childElementCount).toBe(2);
+        expect(elem.firstChild.getAttribute('style')).toMatch('margin-top:5px');
+    });
+    it('should have a panel title', () => {
+        const elem = React.findDOMNode(component);
+        const title = elem.lastChild.firstChild.firstChild;
+        expect(title.tagName).toBe('H3');
+        expect(title.textContent).toBe('The Handicap Spot');
+        expect(title.getAttribute('style')).toMatch('margin-top:0');
+    });
+    it('should have a panel body', () => {
+        const elem = React.findDOMNode(component);
+        const wrapper = elem.firstChild.lastChild;
+        const body = wrapper.firstChild;
+        expect(wrapper.getAttribute('style')).toMatch('font-size:14px');
+        expect(body.tagName).toBe('P');
+        expect(body.textContent).toMatch('birthday');
+    });
+});
+
+
+describe('CollapsiblePanel', () => {
+    let component;
+    beforeEach(() => {
+        component = TestUtils.renderIntoDocument(
+            <CollapsiblePanel/>
+        );
+    });
+    it('should be a composite component', () => {
+        expect(TestUtils.isCompositeComponent(component)).toBe(true);
+    });
+    it('should have a collapsible panel with no bottom margin', () => {
+        const elem = React.findDOMNode(component).firstChild;
+        const output = shallowRender(<CollapsiblePanel/>);
+        expect(elem.getAttribute('style')).toMatch('margin-bottom:0');
+        expect(output.props.children[0].props.collapse).toBe(true);
+    });
+    it('should have a clickable panel title', () => {
+        const elem = React.findDOMNode(component).firstChild.firstChild.firstChild.firstChild;
+        expect(elem.tagName).toBe('A');
+    });
+    it('should change the display property of panel body', () => {
+        const elem = React.findDOMNode(component);
+        const titleElem = elem.firstChild.firstChild.firstChild.firstChild;
+        const bodyElem = elem.firstChild.lastChild;
+        expect(bodyElem.getAttribute('style')).toMatch('overflow:hidden');
+        TestUtils.Simulate.click(titleElem);
+        expect(bodyElem.getAttribute('style')).toMatch('display: none');
+        TestUtils.Simulate.click(titleElem);
+        expect(bodyElem.getAttribute('style')).toMatch('display: block');
+    });
 });
