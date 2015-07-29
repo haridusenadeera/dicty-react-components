@@ -7,12 +7,12 @@ import Radium from 'radium';
 
 /**
  * @example
- *  <TabContent>
+ *  <TabContent to="george">
  *      <h3> I am an architect </h3>
  *  </TabContent>
  *
  * @example
- *  <TabContent>
+ *  <TabContent to="me">
  *      <MyComponent/>
  *  </TabContent>
  */
@@ -29,8 +29,11 @@ export default class TabContent extends React.Component {
     /**
      * @type {Object}
      * @property {Object} style An arbitary style object
+     * @property {string} to An unique name, that creates the url
+     *                       and matches the name defined in the router configuration
      */
     static propTypes = {
+        to: React.PropTypes.string.isRequired,
         style: React.PropTypes.object
     }
     /** @return {Object} gets the default style
@@ -44,7 +47,7 @@ export default class TabContent extends React.Component {
         };
     }
     render() {
-        const {children, style, name, to, params, query} = this.props;
+        const {children, to, style, params, query} = this.props;
         const {router} = this.context;
         const defStyle = this.getStyles();
         if (router.isActive(to, params, query)) {
@@ -52,7 +55,7 @@ export default class TabContent extends React.Component {
         }
         return (
             <div
-                style={[defStyle,  style && style]}>
+                style={[defStyle.base, style && style]}>
                 {children}
             </div>
         );

@@ -9,14 +9,13 @@ import Radium from 'radium';
  * @example
  * <TabGroup>
  *  <TabList>
- *      <Tab/>
- *      <Tab/>
+ *      <Tab name="Jerry" to="jerry"/>
+ *      <Tab name="George" to="george"/>
  *      <Tab/>
  *  </TabList>
  *  <TabPane>
- *      <TabContent> content... </TabContent>
- *      <TabContent> content... </TabContent>
- *      <TabContent> content .. </TabContent>
+ *      <TabContent to="jerry"> content... </TabContent>
+ *      <TabContent to="george"> content... </TabContent>
  *  </TabPane>
  * </TabGroup>
  */
