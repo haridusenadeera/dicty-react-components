@@ -35,11 +35,7 @@ export default class TabList extends React.Component {
                 flexWrap: 'wrap',
                 marginBottom: '15px',
                 marginTop: '0px',
-                paddingLeft: '0px',
-                fontSize: '14px',
-                lineHeight: 1.42857143,
-                color: '#333',
-                fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
+                paddingLeft: '0px'
             }
         };
     }
