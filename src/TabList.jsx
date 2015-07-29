@@ -35,6 +35,7 @@ export default class TabList extends React.Component {
                 flexWrap: 'wrap',
                 marginBottom: '15px',
                 marginTop: '0px',
+                borderBottom: '1px solid #ddd',
                 paddingLeft: '0px'
             }
         };
