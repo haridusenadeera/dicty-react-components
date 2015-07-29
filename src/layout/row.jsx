@@ -48,7 +48,7 @@ function getJustify(screen, params) {
 
 
 @Radium
-export class Row extends React.Component {
+export default class Row extends React.Component {
     displayName = 'Row component for grid layout'
     static propTypes = {
         style: React.PropTypes.object,

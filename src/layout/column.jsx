@@ -18,7 +18,7 @@ function getColumnValues() {
 const colValues = React.PropTypes.oneOf(getColumnValues());
 
 @Radium
-export class Column extends React.Component {
+export default class Column extends React.Component {
     displayName = 'Column component for grid layout'
     static propTypes = {
         xsSpan: colValues,
