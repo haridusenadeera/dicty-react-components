@@ -1,7 +1,7 @@
 import React from 'react';
-import {Container} from '../../src/layout/container';
-import {Row} from '../../src/layout/row';
-import {Column} from '../../src/layout/column';
+import Container from '../../src/layout/container';
+import Row from '../../src/layout/row';
+import Column from '../../src/layout/column';
 
 
 const bgStyle = {
