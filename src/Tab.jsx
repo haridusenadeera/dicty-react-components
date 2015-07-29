@@ -40,7 +40,7 @@ export default class Tab extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 flexWrap: 'wrap',
-                marginBottom: '15px',
+                marginBottom: '-1px',
                 marginTop: '0px',
                 paddingLeft: '0px',
                 fontSize: '14px',
@@ -50,12 +50,15 @@ export default class Tab extends React.Component {
             },
             link: {
                 marginRight: '2px',
-                border: '1px solid transparent',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'transparent',
                 borderRadius: '4px 4px 0 0',
+                textDecoration: 'none',
                 padding: '10px 15px',
+                color: '#337ab7',
                 ':hover': {
                     borderColor: '#eee #eee #ddd',
-                    textDecoration: 'none',
                     backgroundColor: '#eee',
                     outline: 0,
                     color: '#23527c'
@@ -69,7 +72,11 @@ export default class Tab extends React.Component {
                 color: '#555',
                 cursor: 'default',
                 backgroundColor: '#fff',
-                border: '1px solid #ddd',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderRightColor: '#ddd',
+                borderLeftColor: '#ddd',
+                borderTopColor: '#ddd',
                 borderBottomColor: 'transparent'
             }
         };
@@ -88,7 +95,7 @@ export default class Tab extends React.Component {
         return (
             <li
                 style={[defStyle.base, style && style]}>
-                <a href={router.getPathname()}
+                <a href={router.makePath(to, params, query)}
                     style={linkStyle}>
                     {name}
                 </a>
