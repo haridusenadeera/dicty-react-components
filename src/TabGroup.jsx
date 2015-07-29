@@ -37,7 +37,10 @@ export default class TabGroup extends React.Component {
     getStyles = () => {
         return {
             base: {
-
+                fontSize: '14px',
+                lineHeight: 1.42857143,
+                color: '#333',
+                fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
             }
         };
     }
