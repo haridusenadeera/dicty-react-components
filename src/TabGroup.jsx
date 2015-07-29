@@ -14,9 +14,9 @@ import Radium from 'radium';
  *      <Tab/>
  *  </TabList>
  *  <TabPane>
- *      <TabContent/>
- *      <TabContent/>
- *      <TabContent/>
+ *      <TabContent> content... </TabContent>
+ *      <TabContent> content... </TabContent>
+ *      <TabContent> content .. </TabContent>
  *  </TabPane>
  * </TabGroup>
  */

@@ -8,8 +8,12 @@ import Radium from 'radium';
 /**
  * @example
  * <TabPane>
- *  <TabContent/>
- *  <TabContent/>
+ *  <TabContent>
+ *      content ...
+ *  </TabContent>
+ *  <TabContent>
+ *      content ....
+ *  </TabContent>
  * </TabPane>
  */
 
