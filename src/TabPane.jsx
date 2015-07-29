@@ -1,26 +1,46 @@
+import React from 'react';
+import Radium from 'radium';
+
 /**
- * @jsx React.DOM
- * @desc Render a bootstrap markup for tab area for holding content of the tab
- *
+ * @desc component to group all the tab content
  */
 
-var React = require('react');
-var ActiveState = require('react-router').ActiveState;
+/**
+ * @example
+ * <TabPane>
+ *  <TabContent/>
+ *  <TabContent/>
+ * </TabPane>
+ */
 
-var TabPane = React.createClass({
-    mixins: [ActiveState],
-    render: function() {
-        var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
-        var classes = React.addons.classSet({
-            active: isActive,
-            'tab-pane': true
-        });
+@Radium
+export default class TabPane extends React.Component {
+    displayName = 'A component to group all tab content'
+    /**
+     * @type {Object}
+     * @property {Object} style An arbitary style object
+     */
+    static propTypes = {
+        style: React.PropTypes.object
+    }
+    /** @return {Object} gets the default style
+     * @property {Object} base The default style object
+     */
+    getStyles = () => {
+        return {
+            base: {
+                display: 'flex'
+            }
+        };
+    }
+    render() {
+        const {style, children} = this.props;
         return (
-            <div role="tabpanel" className={classes}>
+            <div
+                style={[this.getStyles().base, style && style]}>
+                {children}
             </div>
         );
     }
+}
 
-});
-
-module.exports = TabPane;
