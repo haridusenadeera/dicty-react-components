@@ -37,9 +37,7 @@ export default class Tab extends React.Component {
     getStyles = () => {
         return {
             base: {
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
+                display: 'inherit',
                 marginBottom: '-1px',
                 marginTop: '0px',
                 paddingLeft: '0px',
@@ -48,7 +46,7 @@ export default class Tab extends React.Component {
                 color: '#333',
                 fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
             },
-            link: {
+            inactive: {
                 marginRight: '2px',
                 borderWidth: '1px',
                 borderStyle: 'solid',
@@ -89,7 +87,7 @@ export default class Tab extends React.Component {
         if (router.isActive(to, params, query)) {
             linkStyle = defStyle.active;
         } else {
-            linkStyle = defStyle.link;
+            linkStyle = defStyle.inactive;
         }
 
         return (
