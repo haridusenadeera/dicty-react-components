@@ -51,7 +51,7 @@ export default class TabContent extends React.Component {
         const {router} = this.context;
         const defStyle = this.getStyles();
         if (router.isActive(to, params, query)) {
-            defStyle.base.display = 'inherit';
+            defStyle.base.display = 'block';
         }
         return (
             <div
