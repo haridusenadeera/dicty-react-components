@@ -1,9 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
 
-/**
- * tab group component
- */
 
 /**
  * @example
@@ -20,6 +17,10 @@ import Radium from 'radium';
  * </TabGroup>
  */
 
+
+/**
+ * @desc tab group component
+ */
 @Radium
 export default class TabGroup extends React.Component {
     displayName = 'A top level component for tabs'
@@ -30,7 +31,8 @@ export default class TabGroup extends React.Component {
     static propTypes = {
         style: React.PropTypes.object
     }
-    /** @return {Object} gets the default style
+    /**
+     * @return {Object} gets the default style
      * @property {Object} base The default style object
      */
     getStyles = () => {
