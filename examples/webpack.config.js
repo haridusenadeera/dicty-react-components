@@ -9,7 +9,7 @@ var path = require('path');
 var examples_dir = path.resolve(__dirname);
 
 function buildEntries(dir) {
-    var entries = {}
+    var entries = {};
     fs.readdirSync(dir).forEach(function(entry) {
         if (fs.lstatSync(entry).isDirectory()) {
             if (entry != 'build') {
