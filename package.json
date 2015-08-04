@@ -42,7 +42,7 @@
     "d3": "3.x"
   },
   "scripts": {
-    "test": "node_modules/.bin/jest"
+    "test": "node_modules/.bin/karma start --single-run"
   },
   "repository": {
     "type": "git",
