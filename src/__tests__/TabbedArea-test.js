@@ -1,86 +1,137 @@
-jest.dontMock('../TabbedArea.jsx');
-jest.dontMock('../TabPane.jsx');
+import React from 'react/addons';
+import Router from 'react-router';
+import TabGroup from '../../src/TabGroup';
+import Tab from '../../src/Tab';
+import TabPane from '../../src/TabPane';
+import TabList from '../../src/TabList';
+import TabContent from '../../src/TabContent';
+const {Route, DefaultRoute, TestLocation} = Router;
+const { TestUtils } = React.addons;
 
-describe('TabbedArea', function() {
-    var React = require('react/addons');
-    var Router = require('react-router');
-    var Route = Router.Route;
-    var Routes = Router.Routes;
-    var DefaultRoute = Router.DefaultRoute;
-    var TestUtils = React.addons.TestUtils;
-    var TabbedArea = require('../TabbedArea.jsx');
-    var TabPane = require('../TabPane.jsx');
-
-    var First,
-        Second,
-        App,
-        routes;
-
-    beforeEach(function() {
-        First = React.createClass({
-            render: function () {
-                return (
-                    <p>This is first</p>
-                )
-            }
-        });
-
-        Second = React.createClass({
-            render: function () {
-                return (
-                    <h2>This is second</h2>
-                )
-            }
-        });
-
-        App = React.createClass({
-            render: function () {
-                return (
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-offset-3 col-md-6">
-                                <TabbedArea>
-                                    <TabPane to="first">
-                                        First tab
-                                    </TabPane>
-                                    <TabPane to="second">
-                                        Second tab
-                                    </TabPane>
-                                </TabbedArea>
-                                <this.props.activeRouteHandler />
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
-        });
-        routes = (
-            <Routes>
-                <Route name="app" path="/" handler={App}>
-                    <Route name="first" path="/first" handler={First} />
-                    <Route name="second" path="/second" handler={Second} />
-                    <DefaultRoute handler={First} />
-                </Route>
-            </Routes>
+class First extends React.Component {
+    displayName = 'first'
+    render() {
+        return (
+            <p>This is first</p>
         );
-    });
+    }
+}
 
-    it('should correctly structure the elements for tab', function() {
-        var tab = TestUtils.renderIntoDocument(routes);
-        var ul = TestUtils.findRenderedDOMComponentWithTag(tab, 'ul');
-        expect(ul.getDOMNode().className).toEqual('nav nav-tabs');
-        var liArray = TestUtils.scryRenderedDOMComponentsWithTag(tab, 'li');
-        expect(liArray.length).toEqual(2);
-        var divArray = TestUtils.scryRenderedDOMComponentsWithTag(tab, 'div');
-        expect(divArray.length).toEqual(7);
-        var tabC = TestUtils.findRenderedDOMComponentWithClass(tab, 'tab-content');
-        expect(tabC.getDOMNode().nodeName).toEqual("DIV");
+class Second extends React.Component {
+    displayName = 'second'
+    render() {
+        return (
+            <p>This is second</p>
+        );
+    }
+}
+
+class Third extends React.Component {
+    displayName = 'third'
+    render() {
+        return (
+            <p>This is third</p>
+        );
+    }
+}
+
+
+class App extends React.Component {
+    displayName = 'app'
+    render() {
+        return (
+            <div>
+                <TabGroup>
+                    <TabList>
+                        <Tab name="First" to="first"/>
+                        <Tab name="Second" to="second"/>
+                        <Tab name="Third" to="third"/>
+                    </TabList>
+                    <TabPane>
+                        <TabContent to="first">
+                            <First/>
+                        </TabContent>
+                        <TabContent to="second">
+                            <Second/>
+                        </TabContent>
+                        <TabContent to="third">
+                            <Third/>
+                        </TabContent>
+                    </TabPane>
+                </TabGroup>
+            </div>
+        );
+    }
+}
+
+const routes = (
+        <Route handler={App}>
+            <Route name="second" path="/second" handler={Second} />
+            <Route name="third" path="/third" handler={Third} />
+            <DefaultRoute name="first" handler={First} />
+        </Route>
+);
+
+
+describe('TabGroup', () => {
+    let component;
+    beforeEach(() => {
+        Router.run(routes, (Root) => {
+            component = TestUtils.renderIntoDocument(<Root/>);
+        });
     });
-    it ('should have the correct links and content in the tabs', function() {
-        var tab = TestUtils.renderIntoDocument(routes);
-        var links = TestUtils.scryRenderedDOMComponentsWithTag(tab, 'a');
-        expect(links[0].getDOMNode().textContent).toEqual('First tab');
-        expect(links[0].getDOMNode().href).toContain('#/first');
-        expect(links[1].getDOMNode().href).toContain('#/second');
+    it('should be a composite component', () => {
+        expect(TestUtils.isCompositeComponent(component)).toBe(true);
+    });
+    it('should correctly structure the elements for tab', () => {
+        const elem = React.findDOMNode(component).firstChild;
+        const listElem = elem.firstChild;
+        const paneElem = elem.lastChild;
+        expect(elem.tagName).toBe('DIV');
+        expect(elem.childElementCount).toBe(2);
+        expect(listElem.tagName).toBe('UL');
+        expect(paneElem.tagName).toBe('DIV');
+        expect(paneElem.childElementCount).toBe(3);
+    });
+    it('should correctly structure the tablist components', () => {
+        const elem = React.findDOMNode(component).firstChild.firstChild;
+        const listChild = elem.firstChild;
+        const linkChild = listChild.firstChild;
+        expect(elem.childElementCount).toBe(3);
+        expect(listChild.tagName).toBe('LI');
+        expect(elem.getAttribute('style')).toMatch('margin-bottom:15px');
+        expect(listChild.getAttribute('style')).toMatch('margin-bottom:-1px');
+        expect(linkChild.tagName).toBe('A');
+        expect(linkChild.getAttribute('href')).toMatch('/');
+    });
+});
+
+describe('TabRoute', () => {
+    it('will route to default path', (done) => {
+        const location = new TestLocation(['/']);
+        Router.run(routes, location, (Root) => {
+            const html = React.renderToString(<Root/>);
+            expect(html).toMatch(/First/);
+            expect(html).toMatch('display:block');
+            done();
+        });
+    });
+    it('will route to /second path', (done) => {
+        const location = new TestLocation(['/second']);
+        Router.run(routes, location, (Root) => {
+            const html = React.renderToString(<Root/>);
+            expect(html).toMatch(/Second/);
+            expect(html).toMatch('display:block');
+            done();
+        });
+    });
+    it('will route to /third path', (done) => {
+        const location = new TestLocation(['/third']);
+        Router.run(routes, location, (Root) => {
+            const html = React.renderToString(<Root/>);
+            expect(html).toMatch(/Third/);
+            expect(html).toMatch('display:block');
+            done();
+        });
     });
 });
