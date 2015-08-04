@@ -6,3 +6,4 @@ cd ..
 mkdir -p guides/demo
 cp examples/*.html guides/demo/
 cp -R examples/build guides/demo/
+cp templates/index.html guides/
