@@ -2,12 +2,12 @@ import React from 'react';
 import {Responsive} from './Responsive';
 import {Offset} from './Offset';
 import {Justify} from './Justify';
-import {Container} from '../../src/layout/container';
+import Container from '../../src/layout/container';
 
 class ResponsiveApp extends React.Component {
     displayName = 'App to display the responsive layout'
     render() {
-      return (
+        return (
             <Container>
                 <h1>Responsive</h1>
                 <Responsive/>
@@ -19,7 +19,7 @@ class ResponsiveApp extends React.Component {
 class OffsetApp extends React.Component {
     displayName = 'App to display offset layout'
     render() {
-      return (
+        return (
             <Container>
                 <h1>Offset</h1>
                 <Offset/>
@@ -31,7 +31,7 @@ class OffsetApp extends React.Component {
 class JustifyApp extends React.Component {
     displayName = 'App to display offset layout'
     render() {
-      return (
+        return (
             <Container>
                 <h1>Alignment</h1>
                 <Justify/>
