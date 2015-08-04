@@ -2,24 +2,27 @@ import React from 'react';
 import Radium from 'radium';
 
 /**
- * @desc component to group all the tab content
+ * tab group component
  */
 
 /**
  * @example
- * <TabPane>
- *  <TabContent to="kramer">
- *      content ...
- *  </TabContent>
- *  <TabContent to="jerry">
- *      content ....
- *  </TabContent>
- * </TabPane>
+ * <TabGroup>
+ *  <TabList>
+ *      <Tab name="Jerry" to="jerry"/>
+ *      <Tab name="George" to="george"/>
+ *      <Tab/>
+ *  </TabList>
+ *  <TabPane>
+ *      <TabContent to="jerry"> content... </TabContent>
+ *      <TabContent to="george"> content... </TabContent>
+ *  </TabPane>
+ * </TabGroup>
  */
 
 @Radium
-export default class TabPane extends React.Component {
-    displayName = 'A component to group all tab content'
+export default class TabGroup extends React.Component {
+    displayName = 'A top level component for tabs'
     /**
      * @type {Object}
      * @property {Object} style An arbitary style object
@@ -33,7 +36,10 @@ export default class TabPane extends React.Component {
     getStyles = () => {
         return {
             base: {
-                display: 'flex'
+                fontSize: '14px',
+                lineHeight: 1.42857143,
+                color: '#333',
+                fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
             }
         };
     }

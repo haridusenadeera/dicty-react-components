@@ -2,7 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 
 @Radium
-export class Container extends React.Component {
+export default class Container extends React.Component {
     displayName = 'A fluid container'
     static propTypes = {
         fixed: React.PropTypes.bool,

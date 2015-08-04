@@ -1,31 +1,104 @@
+import React from 'react';
+import Radium from 'radium';
 /**
- * @jsx React.DOM
- * @desc Render a bootstrap tab markup
+ * @desc tab component to display the title(name) and link
  * @example
- *  <Tab isActive={true}
- *       id="mytab"
- *       name="Mytab"
- *       index={3}
- *       onSelect={this.onSelectTab}
- *  />
+ *  <Tab name="Jerry" to="jerry"/>
+ *  <Tab name="Jerry" to="seinfeld"/>
+ *  <Tab name="George" to="seinfeld"/>
  */
 
-var React = require('react');
-var Link = require('react-router').Link;
-var ActiveState = require('react-router').ActiveState;
+@Radium
+export default class Tab extends React.Component {
+    displayName = 'A tab component to display the name and link'
+    constructor(props, context) {
+        super(props, context);
+    }
+    static contextTypes = {
+        router: React.PropTypes.func.isRequired
+    }
+    /**
+     * @type {Object}
+     * @property {Object} style An arbitary style object
+     * @property {string} to An unique name, that creates the url
+     *                       and matches the name defined in the router configuration
+     * @property {string} name The name of the tab to be displayed
+     */
+    static propTypes = {
+        style: React.PropTypes.object,
+        to: React.PropTypes.string.isRequired,
+        name: React.PropTypes.string.isRequired
+    }
+    /** @return {Object} gets the default style
+     * @property {Object} base The default style object
+     * @property {Object} link The default style object for the a(link) element
+     * @property {Object} active The default style object for the active a(link) element
+     */
+    getStyles = () => {
+        return {
+            base: {
+                display: 'inherit',
+                marginBottom: '-1px',
+                marginTop: '0px',
+                paddingLeft: '0px',
+                fontSize: '14px',
+                lineHeight: 1.42857143,
+                color: '#333',
+                fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
+            },
+            inactive: {
+                marginRight: '2px',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'transparent',
+                borderRadius: '4px 4px 0 0',
+                textDecoration: 'none',
+                padding: '10px 15px',
+                color: '#337ab7',
+                ':hover': {
+                    borderColor: '#eee #eee #ddd',
+                    backgroundColor: '#eee',
+                    outline: 0,
+                    color: '#23527c'
+                }
+            },
+            active: {
+                marginRight: '2px',
+                borderRadius: '4px 4px 0 0',
+                padding: '10px 15px',
+                textDecoration: 'none',
+                color: '#555',
+                cursor: 'default',
+                backgroundColor: '#fff',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderRightColor: '#ddd',
+                borderLeftColor: '#ddd',
+                borderTopColor: '#ddd',
+                borderBottomColor: 'transparent'
+            }
+        };
+    }
+    render() {
+        const {style, name, to, params, query} = this.props;
+        const {router} = this.context;
+        const defStyle = this.getStyles();
+        let linkStyle;
+        if (router.isActive(to, params, query)) {
+            linkStyle = defStyle.active;
+        } else {
+            linkStyle = defStyle.inactive;
+        }
 
-var Tab = React.createClass({
-    mixins: [ActiveState],
-    render: function() {
-        var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
-        var classes = React.addons.classSet({active: isActive});
-        var link = Link(this.props);
         return (
-            <li role="presentation" className={classes}>
-                {link}
+            <li
+                style={[defStyle.base, style && style]}>
+                <a href={router.makePath(to, params, query)}
+                    style={linkStyle}>
+                    {name}
+                </a>
             </li>
         );
     }
-});
+}
 
-module.exports = Tab;

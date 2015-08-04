@@ -1,86 +1,97 @@
-var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var Routes = Router.Routes;
-var DefaultRoute = Router.DefaultRoute;
+import React from 'react';
+import Router from 'react-router';
+const {Route, DefaultRoute} = Router;
+import TabGroup from '../../src/TabGroup';
+import Tab from '../../src/Tab';
+import TabPane from '../../src/TabPane';
+import TabList from '../../src/TabList';
+import TabContent from '../../src/TabContent';
+import Container from '../../src/layout/container';
+import Row from '../../src/layout/row';
+import Column from '../../src/layout/column';
 
-require('bootstrap/dist/css/bootstrap');
-require('bootstrap/dist/js/bootstrap');
-
-var Dicty = require('dicty-react-components');
-var TabbedArea = Dicty.TabbedArea;
-var TabPane = Dicty.TabPane;
-
-var Jerry = React.createClass({
-    render: function() {
+class Jerry extends React.Component {
+    displayName = 'Jerry'
+    render() {
         return (
             <h3> Hello, Newman </h3>
-        )
+        );
     }
-});
+}
 
-var George = React.createClass({
-    render: function() {
+class George extends React.Component {
+    displayName = 'George'
+    render() {
         return (
-            <h3>I am an architect </h3>
-        )
+            <h3> I am an architect </h3>
+        );
     }
-});
+}
 
-var Kramer = React.createClass({
-    render: function() {
-        return (
-            <h3>These pretzels are making me thirsty</h3>
-        )
-    }
-});
-
-var Elaine = React.createClass({
-    render: function() {
+class Elaine extends React.Component {
+    displayName = 'Elaine'
+    render() {
         return (
             <h3>Yada yada yada</h3>
-        )
+        );
     }
-});
+}
 
-
-var App = React.createClass({
-    render: function () {
+class Kramer extends React.Component {
+    displayName = 'Kramer'
+    render() {
         return (
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-offset-3 col-md-6">
-                        <TabbedArea>
-                            <TabPane to="jerry">
-                                Jerry
-                            </TabPane>
-                            <TabPane to="george">
-                                George
-                            </TabPane>
-                            <TabPane to="elaine">
-                                Elaine
-                            </TabPane>
-                            <TabPane to="kramer">
-                                Kramer
-                            </TabPane>
-                        </TabbedArea>
-                        <this.props.activeRouteHandler />
-                    </div>
-                </div>
-            </div>
-        )
+            <h3>These pretzels are making me thirsty</h3>
+        );
     }
-});
-var routes = (
-    <Routes>
-        <Route name="seinfeld" path="/" handler={App}>
-            <Route name="jerry" path="/jerry" handler={Jerry} />
-            <Route name="george" path="/george" handler={George} />
-            <Route name="elaine" path="/elaine" handler={Elaine} />
-            <Route name="kramer" path="/kramer" handler={Kramer} />
-            <DefaultRoute handler={Jerry} />
-        </Route>
-    </Routes>
+}
+
+class App extends React.Component {
+    displayName = 'App'
+    render() {
+        return (
+            <Container>
+                <Row>
+                    <Column xsOffset={2} xsSpan={8}>
+                        <TabGroup>
+                            <TabList>
+                                <Tab name="Jerry" to="jerry"/>
+                                <Tab name="George" to="george"/>
+                                <Tab name="Kramer" to="kramer"/>
+                                <Tab name="Elaine" to="elaine"/>
+                            </TabList>
+                            <TabPane>
+                                <TabContent to="jerry">
+                                    <Jerry/>
+                                </TabContent>
+                                <TabContent to="george">
+                                    <George/>
+                                </TabContent>
+                                <TabContent to="elaine">
+                                    <Elaine/>
+                                </TabContent>
+                                <TabContent to="kramer">
+                                    <Kramer/>
+                                </TabContent>
+                            </TabPane>
+                        </TabGroup>
+                    </Column>
+                </Row>
+            </Container>
+        );
+    }
+}
+
+const routes = (
+    <Route handler={App}>
+        <DefaultRoute name="jerry" handler={Jerry} />
+        <Route name="george" path="/george" handler={George} />
+        <Route name="elaine" path="/elaine" handler={Elaine} />
+        <Route name="kramer" path="/kramer" handler={Kramer} />
+    </Route>
 );
 
-React.render(routes,document.body);
+Router.run(routes, (Root) => {
+    React.render(<Root/>, document.getElementById('container'));
+});
+
