@@ -12,7 +12,4 @@ $_> webpack --progress
 $_> ../../node_modules/.bin/webpack --progress
 ```
 
-Then open any html file in the browser. 
-
-* __Tab:__ tab.html
-* __Panel:__ accordion.html
+Then open __index.html__ file in the browser. 

@@ -11,42 +11,25 @@ The components are available through npm package installation.
 npm install dictyBase/dicty-react-components
 ```
 
-Since the component uses [bootstrap3](http://getbootstrap.com) for UI, 
-the default installation also brings in [bootstrap3](http://getbootstrap.com) and [jquery](http://jquery.com)
-through npm installation.
-
 # Usage
-Some of components that requires ```bootstrap3``` could use the one that comes with default install. To use them put the following ```require```
-lines in your module.
+## Online examples
+Please visit [here](http://dictybase.github.io/dicty-react-components/) to look
+at the available components. The following components are available.
 
-```js
-require('bootstrap/dist/css/bootstrap');
-var jQuery = require('jquery');
-require('bootstrap/dist/js/bootstrap');
-```
+* [Tab](http://dictybase.github.io/dicty-react-components/demo/tab.html)
+* [Panel](http://dictybase.github.io/dicty-react-components/demo/panel.html)
+* [Layout](http://dictybase.github.io/dicty-react-components/demo/layout.html)
+* [InterPro Protein Domain](http://dictybase.github.io/dicty-react-components/demo/domain.html)
 
-The third ``require``` might not be needed for bootstrap components that does
-not any javascript to function. However, ```jQuery``` seemed to be needed
-irrespective of the bootstrap component need javascript or not.
-
-To use ```jquery``` globaly with [webpack](http://webpack.github.io) add the
-following in the webpack config file.
-
-```js
-plugins: [
-    new webpack.ProvidePlugin(
-        {
-            jQuery: "jquery"
-        }
-    )
-]
-```
-
-## Try out
+## Trying out locally
 Go to the
 [examples](https://github.com/dictyBase/dicty-react-components/tree/master/examples)
-folder to try out the components.
+folder and follow the instructions.
 
-## Components
-* [Tab](docs/Tab.md) - Generates markup for bootstrap tab integrated with [react-router](https://github.com/rackt/react-router).
-* [Panel](docs/Panel.md) - Generates markup for bootstrap panel and accordion.
+# API/Components documentation
+Please read the source codes in the
+[examples](https://github.com/dictyBase/dicty-react-components/tree/master/examples)
+for each components.
+
+
+
