@@ -47,10 +47,11 @@ export default class TabContent extends React.Component {
         };
     }
     render() {
-        const {children, to, style, params, query} = this.props;
+        const {children, to, location, style} = this.props;
+        const {query} = location;
         const {router} = this.context;
         const defStyle = this.getStyles();
-        if (router.isActive(to, params, query)) {
+        if (router.isActive(to, query)) {
             defStyle.base.display = 'block';
         }
         return (
