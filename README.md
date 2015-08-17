@@ -12,11 +12,24 @@ npm install dictyBase/dicty-react-components
 ```
 
 # Usage
-## Try out
+## Online examples
+Please visit [here](http://dictybase.github.io/dicty-react-components/) to look
+at the available components. The following components are available.
+
+* [Tab](http://dictybase.github.io/dicty-react-components/demo/tab.html)
+* [Panel](http://dictybase.github.io/dicty-react-components/demo/panel.html)
+* [Layout](http://dictybase.github.io/dicty-react-components/demo/layout.html)
+* [InterPro Protein Domain](http://dictybase.github.io/dicty-react-components/demo/domain.html)
+
+## Trying out locally
 Go to the
 [examples](https://github.com/dictyBase/dicty-react-components/tree/master/examples)
-folder to try out the components.
+folder and follow the instructions.
 
-## Components
-* [Tab](docs/Tab.md) - Generates markup for bootstrap tab integrated with [react-router](https://github.com/rackt/react-router).
-* [Panel](docs/Panel.md) - Generates markup for bootstrap panel and accordion.
+# API/Components documentation
+Please read the source codes in the
+[examples](https://github.com/dictyBase/dicty-react-components/tree/master/examples)
+for each components.
+
+
+
