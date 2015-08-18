@@ -15,7 +15,7 @@ export default class Tab extends React.Component {
         super(props, context);
     }
     static contextTypes = {
-        router: React.PropTypes.func.isRequired
+        router: React.PropTypes.object.isRequired
     }
     /**
      * @type {Object}
