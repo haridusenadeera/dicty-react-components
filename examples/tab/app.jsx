@@ -1,6 +1,6 @@
 import React from 'react';
-import Router from 'react-router';
-const {Route, DefaultRoute} = Router;
+import HashHistory from 'react-router/lib/HashHistory';
+import {Router, Route} from 'react-router';
 import TabGroup from '../../src/TabGroup';
 import Tab from '../../src/Tab';
 import TabPane from '../../src/TabPane';
@@ -82,16 +82,17 @@ class App extends React.Component {
     }
 }
 
+
 const routes = (
-    <Route handler={App}>
-        <DefaultRoute name="jerry" handler={Jerry} />
-        <Route name="george" path="/george" handler={George} />
-        <Route name="elaine" path="/elaine" handler={Elaine} />
-        <Route name="kramer" path="/kramer" handler={Kramer} />
-    </Route>
+    <Router history={new HashHistory()}>
+        <Route component={App}>
+            <Route path="jerry" component={Jerry} />
+            <Route path="george" component={George} />
+            <Route path="elaine" component={Elaine} />
+            <Route path="kramer" component={Kramer} />
+        </Route>
+    </Router>
 );
 
-Router.run(routes, (Root) => {
-    React.render(<Root/>, document.getElementById('container'));
-});
+React.render(routes, document.getElementById('container'));
 
