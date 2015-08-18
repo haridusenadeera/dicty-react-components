@@ -24,7 +24,7 @@ export default class TabContent extends React.Component {
         super(props, context);
     }
     static contextTypes = {
-        router: React.PropTypes.func.isRequired
+        router: React.PropTypes.object.isRequired
     }
     /**
      * @type {Object}
@@ -46,12 +46,17 @@ export default class TabContent extends React.Component {
             }
         };
     }
+    getQuery = () => {
+        const {location} = this.props;
+        if (location) {
+            return location.query;
+        }
+    }
     render() {
-        const {children, to, location, style} = this.props;
-        const {query} = location;
+        const {children, to, style} = this.props;
         const {router} = this.context;
         const defStyle = this.getStyles();
-        if (router.isActive(to, query)) {
+        if (router.isActive(to,this.getQuery())) {
             defStyle.base.display = 'block';
         }
         return (

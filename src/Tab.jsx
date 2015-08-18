@@ -79,13 +79,18 @@ export default class Tab extends React.Component {
             }
         };
     }
+    getQuery = () => {
+        const {location} = this.props;
+        if (location) {
+            return location.query;
+        }
+    }
     render() {
-        const {style, name, to, location} = this.props;
-        const {query} = location;
+        const {style, name, to} = this.props;
         const {router} = this.context;
         const defStyle = this.getStyles();
         let linkStyle;
-        if (router.isActive(to, query)) {
+        if (router.isActive(to, this.getQuery())) {
             linkStyle = defStyle.active;
         } else {
             linkStyle = defStyle.inactive;
@@ -94,7 +99,7 @@ export default class Tab extends React.Component {
         return (
             <li
                 style={[defStyle.base, style && style]}>
-                <a href={router.makePath(to, query)}
+                <a href={router.makeHref(to, this.getQuery())}
                     style={linkStyle}>
                     {name}
                 </a>
