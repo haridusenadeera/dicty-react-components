@@ -1,11 +1,11 @@
 import React from 'react/addons';
-import Router from 'react-router';
+import {Router, Route} from 'react-router';
+import MemoryHistory from 'react-router/lib/MemoryHistory';
 import TabGroup from '../../src/TabGroup';
 import Tab from '../../src/Tab';
 import TabPane from '../../src/TabPane';
 import TabList from '../../src/TabList';
 import TabContent from '../../src/TabContent';
-const {Route, DefaultRoute, TestLocation} = Router;
 const { TestUtils } = React.addons;
 
 class First extends React.Component {
@@ -65,11 +65,13 @@ class App extends React.Component {
 }
 
 const routes = (
-        <Route handler={App}>
-            <Route name="second" path="/second" handler={Second} />
-            <Route name="third" path="/third" handler={Third} />
-            <DefaultRoute name="first" handler={First} />
-        </Route>
+        <Router history={new MemoryHistory()}>
+            <Route path="/" component={App}>
+                <Route path="second" component={Second} />
+                <Route path="third" component={Third} />
+                <Router path="first" component={First} />
+            </Route>
+        </Router>
 );
 
 
