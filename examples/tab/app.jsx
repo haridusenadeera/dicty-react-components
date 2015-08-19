@@ -82,7 +82,6 @@ class App extends React.Component {
     }
 }
 
-
 const routes = (
     <Router history={new HashHistory()}>
         <Route component={App}>
