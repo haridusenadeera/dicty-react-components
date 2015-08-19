@@ -27,9 +27,9 @@ Go to the
 folder and follow the instructions.
 
 # API/Components documentation
-Please read the source codes in the
+Please read the source code in the
 [examples](https://github.com/dictyBase/dicty-react-components/tree/master/examples)
-for each components.
+folder for each component.
 
 
 
