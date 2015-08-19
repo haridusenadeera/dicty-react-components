@@ -1,11 +1,11 @@
 import React from 'react/addons';
-import Router from 'react-router';
+import {Router, Route} from 'react-router';
+import MemoryHistory from 'react-router/lib/MemoryHistory';
 import TabGroup from '../../src/TabGroup';
 import Tab from '../../src/Tab';
 import TabPane from '../../src/TabPane';
 import TabList from '../../src/TabList';
 import TabContent from '../../src/TabContent';
-const {Route, DefaultRoute, TestLocation} = Router;
 const { TestUtils } = React.addons;
 
 class First extends React.Component {
@@ -65,20 +65,42 @@ class App extends React.Component {
 }
 
 const routes = (
-        <Route handler={App}>
-            <Route name="second" path="/second" handler={Second} />
-            <Route name="third" path="/third" handler={Third} />
-            <DefaultRoute name="first" handler={First} />
-        </Route>
+        <Router history={new MemoryHistory('/first')}>
+            <Route path="/" component={App}>
+                <Route path="second" component={Second} />
+                <Route path="third" component={Third} />
+                <Router path="first" component={First} />
+            </Route>
+        </Router>
+);
+
+
+const routes2 = (
+        <Router history={new MemoryHistory('/second')}>
+            <Route path="/" component={App}>
+                <Route path="second" component={Second} />
+                <Route path="third" component={Third} />
+                <Router path="first" component={First} />
+            </Route>
+        </Router>
+);
+
+
+const routes3 = (
+        <Router history={new MemoryHistory('/third')}>
+            <Route path="/" component={App}>
+                <Route path="second" component={Second} />
+                <Route path="third" component={Third} />
+                <Router path="first" component={First} />
+            </Route>
+        </Router>
 );
 
 
 describe('TabGroup', () => {
     let component;
     beforeEach(() => {
-        Router.run(routes, (Root) => {
-            component = TestUtils.renderIntoDocument(<Root/>);
-        });
+        component = TestUtils.renderIntoDocument(routes);
     });
     it('should be a composite component', () => {
         expect(TestUtils.isCompositeComponent(component)).toBe(true);
@@ -102,35 +124,48 @@ describe('TabGroup', () => {
         expect(elem.getAttribute('style')).toMatch('margin-bottom:15px');
         expect(listChild.getAttribute('style')).toMatch('margin-bottom:-1px');
         expect(linkChild.tagName).toBe('A');
-        expect(linkChild.getAttribute('href')).toMatch('/');
+        expect(linkChild.getAttribute('href')).toMatch('first');
     });
 });
 
 describe('TabRoute', () => {
-    it('will route to default path', (done) => {
-        const location = new TestLocation(['/']);
-        Router.run(routes, location, (Root) => {
-            const html = React.renderToString(<Root/>);
-            expect(html).toMatch(/First/);
-            expect(html).toMatch('display:block');
+    let element;
+    beforeEach(() => {
+        element = document.createElement('div');
+    });
+    it('will route to first path', (done) => {
+        React.render(routes, element, () => {
+            expect(element.textContent.trim()).toMatch(/First/);
+            expect(element.firstChild.firstChild.
+                   lastChild.lastChild.
+                   getAttribute('style')).toBe('display:none;');
+            expect(element.firstChild.firstChild.
+                   lastChild.firstChild.
+                   getAttribute('style')).toBe('display:block;');
             done();
         });
     });
-    it('will route to /second path', (done) => {
-        const location = new TestLocation(['/second']);
-        Router.run(routes, location, (Root) => {
-            const html = React.renderToString(<Root/>);
-            expect(html).toMatch(/Second/);
-            expect(html).toMatch('display:block');
+    it('will route to second path', (done) => {
+        React.render(routes2, element, () => {
+            expect(element.firstChild.firstChild.
+                   lastChild.lastChild.
+                   getAttribute('style')).toBe('display:none;');
+            expect(element.firstChild.firstChild.
+                   lastChild.firstChild.
+                   getAttribute('style')).toBe('display:none;');
+            expect(element.textContent.trim()).toMatch(/Second/);
             done();
         });
     });
-    it('will route to /third path', (done) => {
-        const location = new TestLocation(['/third']);
-        Router.run(routes, location, (Root) => {
-            const html = React.renderToString(<Root/>);
-            expect(html).toMatch(/Third/);
-            expect(html).toMatch('display:block');
+    it('will route to third path', (done) => {
+        React.render(routes3, element, () => {
+            expect(element.firstChild.firstChild.
+                   lastChild.lastChild.
+                   getAttribute('style')).toBe('display:block;');
+            expect(element.firstChild.firstChild.
+                   lastChild.firstChild.
+                   getAttribute('style')).toBe('display:none;');
+            expect(element.textContent.trim()).toMatch(/Third/);
             done();
         });
     });
