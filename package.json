@@ -4,7 +4,7 @@
     "node": "0.10.x",
     "npm": "1.x"
   },
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Collection of react components for developing frontpage application at dictyBase",
   "authors": [
     "Siddhartha Basu"
