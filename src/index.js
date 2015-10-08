@@ -11,5 +11,11 @@ module.exports = {
     Container: require('./layout/container.jsx'),
     Row: require('./layout/row.jsx'),
     Column: require('./layout/column.jsx'),
-    InterProDomain: require('./InterProDomain.jsx')
+    InterProDomain: require('./InterProDomain.jsx'),
+    Navbar: require('./Navbar.jsx'),
+    NavItem: require('./NavItem.jsx'),
+    NavbarHeader: require('./NavbarHeader.jsx'),
+    NavbarItems: require('./NavbarItems.jsx'),
+    NavbarDropdown: require('./NavbarDropdown.jsx'),
+    DropdownMenu: require('./DropdownMenu.jsx')
 };
